@@ -1,0 +1,63 @@
+# 加载所需的包
+library(igraph)
+library(psych) 
+library(Hmisc)
+library(vegan) 
+library(dplyr) 
+library(reshape2) 
+
+# 读取otu丰度表格
+otu <- read.delim("network_RH_3h_1.txt", row.names = 1, check.names = FALSE)
+
+# 筛选属水平数据
+otu <- otu[rowSums(otu > 0.002) >= 1, ]
+
+# 计算相关性矩阵的 p 值和 R 值
+cor_result <- rcorr(t(otu), type = "spearman")
+occor.r = cor_result$r
+occor.p = cor_result$P
+
+occor.p_adjusted <- p.adjust(occor.p, method = "BH")
+# 筛选相关性显著的otu 
+occor.r[occor.p >= 0.05 | abs(occor.r) <= 0.75] = 0
+diag(occor.r) <- 0 
+occor.r[upper.tri(occor.r)] <- 0 
+
+df = melt(as.matrix(occor.r)) 
+
+# 构建gephi边文件 
+df$Var1 = as.character(df$Var1) # 转换为character 
+df$Var2 = as.character(df$Var2)
+df1 = subset(df, !df$Var1 == df$Var2) # 删除自相关 
+colnames(df1) = c("Source", "Target", "Weight") 
+df1 = subset(df1, !df1$Weight == 0) # 去除权重为0的边 
+
+# 添加Weight的绝对值列
+df1$Weight_Abs <- abs(df1$Weight)
+
+# 添加Weight正负号列
+df1$Sign <- ifelse(df1$Weight > 0, 1, ifelse(df1$Weight < 0, -1, 0))
+
+write.csv(df1, "221edge_RH_3h.csv", row.names = FALSE) # 导出边文件 
+# 读取 CSV 文件
+df <- read.csv("221edge_RH_3h.csv")
+
+# 修改列名
+names(df) <- c("Source", "Target",  "coll","Weight", "cor")
+
+# 保存回 CSV 文件
+write.csv(df, "221edge_RH_3h.csv", row.names = FALSE)
+
+
+df2 = data.frame(id = unique(c(df1$Source, df1$Target)))
+
+# 读取节点属性数据
+node_attributes <- read.delim("分类.txt", row.names = 1, check.names = FALSE)
+
+# 将节点属性与节点列表进行合并
+node_attributes <- node_attributes[as.character(df2$id),]  # 按照节点列表的顺序进行筛选
+df2 <- cbind(df2, node_attributes)  # 将节点属性合并到节点列表中
+
+# 输出合并后的节点文件
+write.csv(df2, "221node_with_attributes_RH_3h.csv", row.names = FALSE)
+
