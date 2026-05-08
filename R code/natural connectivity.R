@@ -1,27 +1,62 @@
-# 加载必要的库
+# ============================================================================
+# Natural Connectivity Calculation for Network Robustness Analysis
+# Author: Yujie Wang
+# Date: 2026-05-08
+# 
+# Description:
+#   This script calculates natural connectivity (a spectral measure of network 
+#   robustness) for a microbial co-occurrence network. It computes the natural 
+#   connectivity of the original network and after sequential random node removal 
+#   at specified proportions (10%, 20%, 30%, 40%, 50%). Natural connectivity 
+#   is defined as the average of the eigenvalues of the adjacency matrix.
+#
+# Parameters:
+#   input_file: "227edge_RH_3h.csv" - Network edge list in CSV format
+#                Columns: Source, Target, Weight (and other attributes)
+#   output_file: "natural_connectivity_results_RH_3h.csv" - Results output file
+#   removal_proportions: c(0.1, 0.2, 0.3, 0.4, 0.5) - Fractions of nodes to remove
+#   random_seed: Not explicitly set (uses default R random number generator)
+#
+# Output:
+#   Data frame with two columns:
+#     - ProportionRemoved: Fraction of nodes removed (0.1 to 0.5)
+#     - NaturalConnectivity: Natural connectivity value after node removal
+#
+# Required Packages:
+#   igraph
+# 
+# Reference:
+#   Natural connectivity as a measure of network robustness.
+#   Jun, W. et al. (2010). Physica A: Statistical Mechanics and its Applications.
+# ============================================================================
+
+
+# Load required library
 library(igraph)
 
-# 读取CSV文件
-file_path <- "227edge_RH_3h.csv"  # 修改为你的CSV文件路径
+# Read CSV file containing network edges
+# Modify the file path as needed for your environment
+file_path <- "227edge_RH_3h.csv"  
 df <- read.csv(file_path, stringsAsFactors = FALSE)
 
-# 创建图
+# Create undirected graph from edge list
 G <- graph_from_data_frame(d = df, directed = FALSE)
 
-# 计算自然连通度的函数
+# Function to calculate natural connectivity
+# Natural connectivity = average of eigenvalues of the adjacency matrix
 natural_connectivity <- function(G) {
-  # 获取图的邻接矩阵
+  # Get adjacency matrix of the graph
   A <- as_adjacency_matrix(G, sparse = FALSE)
   
-  # 计算邻接矩阵的特征值
+  # Calculate eigenvalues of the adjacency matrix
   eigenvalues <- eigen(A)$values
   
-  # 确保特征值是非负的
-  eigenvalues <- Re(eigenvalues)  # 取实部
-  eigenvalues <- eigenvalues[eigenvalues > 0]  # 去掉负值和零值
+  # Ensure eigenvalues are non-negative
+  eigenvalues <- Re(eigenvalues)  # Extract real part only
+  eigenvalues <- eigenvalues[eigenvalues > 0]  # Remove negative and zero values
   
-  # 计算自然连通度
-  n <- vcount(G)  # 图的节点数
+  # Calculate natural connectivity
+  n <- vcount(G)  # Number of nodes in the graph
   if (n == 0) {
     return(0.0)
   }
@@ -29,22 +64,23 @@ natural_connectivity <- function(G) {
   return(phi)
 }
 
-# 定义要移除的节点比例
+# Define node removal proportions for robustness testing
+# Test robustness at 10%, 20%, 30%, 40%, and 50% node removal
 proportions <- c(0.1, 0.2, 0.3, 0.4, 0.5)  # 10%, 20%, 30%, 40%, 50%
 results <- data.frame(ProportionRemoved = proportions, NaturalConnectivity = numeric(length(proportions)))
 
-# 计算移除指定比例节点后的自然连通度
+# Calculate natural connectivity after removing specified proportion of nodes
 for (i in seq_along(proportions)) {
   p <- proportions[i]
-  # 随机移除指定比例的节点
+  # Randomly remove specified proportion of nodes
   nodes_to_remove <- sample(V(G), size = round(p * vcount(G)))
   G_reduced <- delete_vertices(G, nodes_to_remove)
   results$NaturalConnectivity[i] <- natural_connectivity(G_reduced)
 }
 
-# 输出结果
+# Display results in console
 print(results)
 
-# 保存结果到CSV文件
-output_file_path <- "natural_connectivity_results_RH_3h.csv"  # 输出文件路径
+# Save results to CSV file
+output_file_path <- "natural_connectivity_results_RH_3h.csv"  
 write.csv(results, file = output_file_path, row.names = FALSE)
