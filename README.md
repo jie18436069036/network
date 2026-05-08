@@ -28,17 +28,17 @@ R Scripts
   - `cohesion_RH_3h.csv`: Sample-level positive and negative cohesion scores
 
 **Computing Environment**
-1.Software：R ；Version：4.5.2；Purpose：Statistical computing environment
-2.Software：RStudio ；Version：2025.05.1+513 (optional)；Purpose：Integrated development environment
+- `Software：R ；Version：4.5.2；Purpose：Statistical computing environment
+- `Software：RStudio ；Version：2025.05.1+513 (optional)；Purpose：Integrated development environment
 
 **R Package Dependencies**
-1.Package：igraph ；Version：2.2.2 ；Description：Network analysis and visualization 
-2.Package：psych ；Version：2.6.1 ；Description：Correlation and descriptive statistics 
-3.Package：Hmisc ；Version：5.2.5 ；Description：Data analysis utilities 
-4.Package：vegan ；Version：2.7.3 ；Description：Community ecology analysis 
-5.Package：dplyr ；Version：1.2.0 ；Description：Data manipulation
-6.Package：reshape2 ；Version：1.4.5 ；Description：Data reshaping
-7.Package：stats ；Version： 4.5.2 ；Description：Base R statistical functions
+- `Package：igraph ；Version：2.2.2 ；Description：Network analysis and visualization 
+- `Package：psych ；Version：2.6.1 ；Description：Correlation and descriptive statistics 
+- `Package：Hmisc ；Version：5.2.5 ；Description：Data analysis utilities 
+- `Package：vegan ；Version：2.7.3 ；Description：Community ecology analysis 
+- `Package：dplyr ；Version：1.2.0 ；Description：Data manipulation
+- `Package：reshape2 ；Version：1.4.5 ；Description：Data reshaping
+- `Package：stats ；Version： 4.5.2 ；Description：Base R statistical functions
 
 **Verify Package Versions**
 ```r
