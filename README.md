@@ -1,11 +1,13 @@
 Microbial Network Analysis
 
 **Overview**
+
 This repository contains the R code and data associated with the analysis of microbial co-occurrence networks and community cohesion.
 Co-occurrence network analysis was performed to investigate microbial community interactions. Network robustness was assessed using natural connectivity metrics, and community cohesion was quantified using permutation-based null models.
 
 **File Descriptions**
 R Scripts
+
 1.`network_plot.R` includes code to construct co-occurrence networks using Spearman correlation and generate edge/node files for network visualization.
 - Data inputs:
   - `network_RH_3h_1.txt`: OTU/ASV abundance table (taxa as rows, samples as columns)
