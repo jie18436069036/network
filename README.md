@@ -28,7 +28,7 @@ R Scripts
   - `cohesion_RH_3h.csv`: Sample-level positive and negative cohesion scores
 
 **Computing Environment**
-1.Software：R ；Version：4.3.3；Purpose：Statistical computing environment
+1.Software：R ；Version：4.5.2；Purpose：Statistical computing environment
 2.Software：RStudio ；Version：2025.05.1+513 (optional)；Purpose：Integrated development environment
 
 **R Package Dependencies**
