@@ -51,3 +51,35 @@ packageVersion("Hmisc")
 packageVersion("vegan")
 packageVersion("dplyr")
 packageVersion("reshape2")
+
+**Step-by-Step Running Instructions**
+### Prerequisites
+Ensure all input files are in the working directory and set working directory:
+```r
+setwd("~/path/to/network")
+- source("R code/network_plot.R")
+- `Key parameters:
+prevalence_filter: 0.002 (minimum relative abundance)
+correlation_method: "spearman"
+p_value_threshold: 0.05
+correlation_threshold: 0.75
+p_adjust_method: "BH"
+- `Expected output:[1] "Edge file exported: 221edge_RH_3h.csv"
+[2] "Node file exported: 221node_with_attributes_RH_3h.csv"
+- source("R code/natural_connectivity.R")
+- `Expected output: Robustness scores at 10%, 20%, 30%, 40%, and 50% node removal levels.
+- source("R code/Positive and Negative Cohesion.R")
+- `Expected output: Connectedness and cohesion values per taxon/sample.
+
+### Expected Outputs
+
+```markdown
+## Expected Outputs
+
+| Output File | Description | Format |
+|:---|:---|:---|
+| `221edge_RH_3h.csv` | Network edge list | CSV |
+| `221node_with_attributes_RH_3h.csv` | Node list with taxonomy | CSV |
+| `natural_connectivity_results_RH_3h.csv` | Robustness scores | CSV |
+| `connectedness.csv` | Taxon-level connectedness | CSV |
+| `cohesion_RH_3h.csv` | Sample-level cohesion | CSV |
