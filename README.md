@@ -41,17 +41,7 @@ R Scripts
 - `Package：dplyr ；Version：1.2.0 ；Description：Data manipulation
 - `Package：reshape2 ；Version：1.4.5 ；Description：Data reshaping
 - `Package：stats ；Version： 4.5.2 ；Description：Base R statistical functions
-
-**Verify Package Versions**
-```r
-R.version.string
-packageVersion("igraph")
-packageVersion("psych")
-packageVersion("Hmisc")
-packageVersion("vegan")
-packageVersion("dplyr")
-packageVersion("reshape2")
-
+  
 **Step-by-Step Running Instructions**
 ### Prerequisites
 Ensure all input files are in the working directory and set working directory:
@@ -83,3 +73,16 @@ p_adjust_method: "BH"
 | `natural_connectivity_results_RH_3h.csv` | Robustness scores | CSV |
 | `connectedness.csv` | Taxon-level connectedness | CSV |
 | `cohesion_RH_3h.csv` | Sample-level cohesion | CSV |
+
+
+**Verify Package Versions**
+```r
+R.version.string
+packageVersion("igraph")
+packageVersion("psych")
+packageVersion("Hmisc")
+packageVersion("vegan")
+packageVersion("dplyr")
+packageVersion("reshape2")
+
+
